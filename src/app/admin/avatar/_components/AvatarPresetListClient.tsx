@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useRef, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import {
@@ -119,10 +120,11 @@ export default function AvatarPresetListClient({
                 p.is_active ? "border-black/10 bg-white" : "border-black/10 bg-neutral-50 opacity-50"
               }`}
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+              <Image
                 src={p.image_url}
                 alt=""
+                width={56}
+                height={56}
                 className="mx-auto h-14 w-14 rounded-full object-cover"
               />
               <input

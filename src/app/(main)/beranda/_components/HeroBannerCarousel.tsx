@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useRef, useState } from "react";
 
 export type HeroBanner = {
@@ -37,19 +38,21 @@ export default function HeroBannerCarousel({
         onScroll={handleScroll}
         className="flex snap-x snap-mandatory gap-3 overflow-x-auto scroll-smooth no-scrollbar"
       >
-        {banners.map((b) => {
+        {banners.map((b, i) => {
           const content = (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
+            <Image
               src={b.image_url}
               alt=""
-              className="h-full w-full object-cover"
+              fill
+              sizes="100vw"
+              priority={i === 0}
+              className="object-cover"
             />
           );
           return (
             <div
               key={b.id}
-              className="aspect-[2.5/1] w-full shrink-0 snap-center overflow-hidden rounded-xl"
+              className="relative aspect-[2.5/1] w-full shrink-0 snap-center overflow-hidden rounded-xl"
             >
               {b.link_url ? (
                 <a href={b.link_url} className="block h-full w-full">

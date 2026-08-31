@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
@@ -90,10 +91,11 @@ export default function AvatarUpload({
     <div className="flex flex-col items-center">
       <div className="relative">
         {preview ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
+          <Image
             src={preview}
             alt={displayName}
+            width={96}
+            height={96}
             className="h-24 w-24 rounded-full object-cover"
           />
         ) : (
@@ -169,8 +171,13 @@ export default function AvatarUpload({
                         : "border-transparent hover:border-brand/40"
                     }`}
                   >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={url} alt="" className="h-full w-full" />
+                    <Image
+                      src={url}
+                      alt=""
+                      width={48}
+                      height={48}
+                      className="h-full w-full"
+                    />
                   </button>
                 ))}
               </div>

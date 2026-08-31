@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { toPng } from "html-to-image";
 import type { PlayerInfo, LeaderboardRow } from "./MatchmakingSection";
 
 function formatDateShort(dateStr: string) {
@@ -60,6 +59,7 @@ export default function RankingSection({
     if (!node) return;
     setDownloadingId(playerId);
     try {
+      const { toPng } = await import("html-to-image");
       const dataUrl = await toPng(node, {
         pixelRatio: 2,
         backgroundColor: undefined,

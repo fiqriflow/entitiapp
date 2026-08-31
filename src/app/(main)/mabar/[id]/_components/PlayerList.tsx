@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { LEVEL_LABEL } from "@/lib/constants";
@@ -83,10 +84,11 @@ export default function PlayerList({
             className="flex w-full items-center gap-3 rounded-lg border border-black/5 bg-white px-3 py-2 text-left transition hover:border-brand/30"
           >
             {p.players?.avatar_url ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
+              <Image
                 src={p.players.avatar_url}
                 alt=""
+                width={32}
+                height={32}
                 className="h-8 w-8 shrink-0 rounded-full object-cover"
               />
             ) : (
@@ -176,10 +178,11 @@ export default function PlayerList({
           >
             <div className="flex flex-col items-center text-center">
               {selected.players?.avatar_url ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
+                <Image
                   src={selected.players.avatar_url}
                   alt=""
+                  width={80}
+                  height={80}
                   className="h-20 w-20 rounded-full object-cover"
                 />
               ) : (

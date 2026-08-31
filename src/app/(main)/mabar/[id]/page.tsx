@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
+import Image from "next/image";
 import JoinButton from "./_components/JoinButton";
 import DeleteMabarButton from "../_components/DeleteMabarButton";
 import PlayerList, { type ParticipantRow } from "./_components/PlayerList";
@@ -334,12 +335,14 @@ export default async function MabarDetailPage({
 
   return (
     <div className="space-y-4">
-      <div className="overflow-hidden rounded-2xl border border-black/10">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+      <div className="relative h-32 w-full overflow-hidden rounded-2xl border border-black/10 sm:h-40">
+        <Image
           src={headerImageUrl}
           alt=""
-          className="h-32 w-full object-cover sm:h-40"
+          fill
+          sizes="100vw"
+          priority
+          className="object-cover"
         />
       </div>
 

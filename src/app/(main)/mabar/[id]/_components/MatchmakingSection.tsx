@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import {
@@ -57,8 +58,13 @@ function Player({ p }: { p: PlayerInfo | undefined }) {
   return (
     <span className="inline-flex items-center gap-1.5">
       {p.avatar_url ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img src={p.avatar_url} alt="" className="h-5 w-5 rounded-full object-cover" />
+        <Image
+          src={p.avatar_url}
+          alt=""
+          width={20}
+          height={20}
+          className="h-5 w-5 rounded-full object-cover"
+        />
       ) : (
         <span className="flex h-5 w-5 items-center justify-center rounded-full bg-neutral-200 text-[9px] font-semibold text-ink/50">
           {p.name[0]?.toUpperCase()}

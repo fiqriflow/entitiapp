@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 import { deleteBanner, toggleBannerActive } from "../actions";
 import BannerFormModal, { type BannerRow } from "./BannerFormModal";
@@ -55,12 +56,13 @@ export default function BannerListClient({
             key={b.id}
             className="overflow-hidden rounded-xl border border-black/10 bg-white"
           >
-            <div className="aspect-[2.5/1] w-full bg-neutral-100">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+            <div className="relative aspect-[2.5/1] w-full bg-neutral-100">
+              <Image
                 src={b.image_url}
                 alt=""
-                className="h-full w-full object-cover"
+                fill
+                sizes="(max-width: 640px) 100vw, 50vw"
+                className="object-cover"
               />
             </div>
             <div className="p-3">
