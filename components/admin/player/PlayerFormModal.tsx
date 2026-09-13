@@ -96,8 +96,8 @@ function PlayerFormModalInner({
     setForm((f) => ({ ...f, [key]: value }));
 
   return (
-    <div className="fixed inset-0 z-20 flex items-end justify-center bg-black/40 md:items-center">
-      <div className="max-h-[90vh] w-full max-w-md overflow-y-auto rounded-t-2xl bg-white p-6 md:rounded-2xl">
+    <div className="fixed inset-0 z-20 flex items-end justify-center bg-black/40">
+      <div className="max-h-[90vh] w-full max-w-md overflow-y-auto rounded-t-2xl bg-white p-6">
         <h2 className="text-lg font-semibold text-ink">
           {editing ? "Edit Pemain" : "Tambah Pemain"}
         </h2>

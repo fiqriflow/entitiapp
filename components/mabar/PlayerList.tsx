@@ -169,11 +169,11 @@ export default function PlayerList({
 
       {selected && (
         <div
-          className="fixed inset-0 z-30 flex items-end justify-center bg-black/40 md:items-center"
+          className="fixed inset-0 z-30 flex items-end justify-center bg-black/40"
           onClick={() => setSelected(null)}
         >
           <div
-            className="w-full max-w-sm rounded-t-2xl bg-white p-6 md:rounded-2xl"
+            className="w-full max-w-sm rounded-t-2xl bg-white p-6"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex flex-col items-center text-center">

@@ -88,8 +88,8 @@ export default function PlayerListClient({
         </button>
       </div>
 
-      {/* Mobile: card list */}
-      <div className="mt-4 space-y-2 sm:hidden">
+      {/* Card list */}
+      <div className="mt-4 space-y-2">
         {filtered.map((p) => (
           <div
             key={p.id}
@@ -145,77 +145,6 @@ export default function PlayerListClient({
             Belum ada pemain.
           </p>
         )}
-      </div>
-
-      {/* Desktop: table */}
-      <div className="mt-4 hidden overflow-hidden rounded-xl border border-black/10 bg-white sm:block">
-        <table className="w-full text-left text-sm">
-          <thead className="bg-neutral-50 text-xs font-medium text-ink/50">
-            <tr>
-              <th className="px-4 py-3">Nama</th>
-              <th className="px-4 py-3">Email</th>
-              <th className="px-4 py-3">Level</th>
-              <th className="px-4 py-3">Gender</th>
-              <th className="px-4 py-3">Role</th>
-              <th className="px-4 py-3"></th>
-            </tr>
-          </thead>
-          <tbody>
-            {filtered.map((p) => (
-              <tr key={p.id} className="border-t border-black/5">
-                <td className="px-4 py-3">
-                  <p className="font-medium text-ink">{p.full_name || "-"}</p>
-                  <p className="text-xs text-ink/50">{p.nickname}</p>
-                </td>
-                <td className="px-4 py-3 text-ink/70">{p.email || "-"}</td>
-                <td className="px-4 py-3 text-ink/70">
-                  {LEVEL_LABEL[p.level ?? ""] ?? "-"}
-                </td>
-                <td className="px-4 py-3 text-ink/70">
-                  {p.gender === "pria" ? "Pria" : p.gender === "wanita" ? "Wanita" : "-"}
-                </td>
-                <td className="px-4 py-3">
-                  {p.role === "admin" ? (
-                    <span className="rounded-full bg-brand-light px-2 py-0.5 text-xs font-medium text-brand-dark">
-                      Admin
-                    </span>
-                  ) : (
-                    <span className="text-xs text-ink/40">Member</span>
-                  )}
-                </td>
-                <td className="px-4 py-3 text-right">
-                  <button
-                    onClick={() => openEdit(p)}
-                    className="mr-2 text-xs font-medium text-brand-dark"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => handleDelete(p.id)}
-                    disabled={deletingId === p.id}
-                    className="text-xs font-medium text-red-600"
-                  >
-                    {deletingId === p.id ? "..." : "Hapus"}
-                  </button>
-                  <button
-                    onClick={() => handleHardDelete(p)}
-                    disabled={hardDeletingId === p.id}
-                    className="ml-2 text-xs font-bold text-red-700"
-                  >
-                    {hardDeletingId === p.id ? "..." : "Hapus Permanen"}
-                  </button>
-                </td>
-              </tr>
-            ))}
-            {filtered.length === 0 && (
-              <tr>
-                <td colSpan={6} className="px-4 py-8 text-center text-ink/40">
-                  Belum ada pemain.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
       </div>
 
       <PlayerFormModal

@@ -145,11 +145,11 @@ export default function JoinButton({
 
       {checklistOpen && (
         <div
-          className="fixed inset-0 z-30 flex items-end justify-center bg-black/40 md:items-center"
+          className="fixed inset-0 z-30 flex items-end justify-center bg-black/40"
           onClick={() => setChecklistOpen(false)}
         >
           <div
-            className="max-h-[85vh] w-full max-w-sm overflow-y-auto rounded-t-2xl bg-white p-6 md:rounded-2xl"
+            className="max-h-[85vh] w-full max-w-sm overflow-y-auto rounded-t-2xl bg-white p-6"
             onClick={(e) => e.stopPropagation()}
           >
             <h2 className="text-lg font-semibold text-ink">

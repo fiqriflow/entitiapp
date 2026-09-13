@@ -61,7 +61,7 @@ export default async function MainLayout({
         displayName={displayName}
         unreadCount={unreadCount ?? 0}
       />
-      <main className="mx-auto max-w-3xl px-4 pb-24 pt-4 md:px-6 md:pb-10">
+      <main className="mx-auto max-w-md px-4 pb-24 pt-4">
         {children}
       </main>
       <BottomNav />

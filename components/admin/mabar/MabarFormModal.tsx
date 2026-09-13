@@ -24,6 +24,7 @@ export type MabarRow = {
   level_min: string;
   level_max: string;
   gender_restriction: "pria" | "wanita" | null;
+  girl_balance: boolean;
   joined_count: number;
   pending_count: number;
   paid_count: number;
@@ -44,6 +45,7 @@ const EMPTY: MabarInput = {
   level_min: "newbie",
   level_max: "advance",
   gender_restriction: "",
+  girl_balance: false,
 };
 
 export default function MabarFormModal({
@@ -96,6 +98,7 @@ function MabarFormModalInner({
         level_min: editing.level_min ?? "newbie",
         level_max: editing.level_max ?? "advance",
         gender_restriction: editing.gender_restriction ?? "",
+        girl_balance: editing.girl_balance ?? false,
       };
     }
     if (prefill) {
@@ -128,8 +131,8 @@ function MabarFormModalInner({
     setForm((f) => ({ ...f, [key]: value }));
 
   return (
-    <div className="fixed inset-0 z-20 flex items-end justify-center bg-black/40 md:items-center">
-      <div className="max-h-[90vh] w-full max-w-md overflow-y-auto rounded-t-2xl bg-white p-6 md:rounded-2xl">
+    <div className="fixed inset-0 z-20 flex items-end justify-center bg-black/40">
+      <div className="max-h-[90vh] w-full max-w-md overflow-y-auto rounded-t-2xl bg-white p-6">
         <h2 className="text-lg font-semibold text-ink">
           {editing ? "Edit Mabar" : "Buat Mabar Baru"}
         </h2>
@@ -255,6 +258,24 @@ function MabarFormModalInner({
               <option value="wanita">Woman Only</option>
             </select>
           </Field>
+
+          <label className="flex items-start gap-2 rounded-lg border border-black/10 p-3">
+            <input
+              type="checkbox"
+              checked={form.girl_balance}
+              onChange={(e) => field("girl_balance", e.target.checked)}
+              className="mt-0.5 h-4 w-4 rounded border-black/20 accent-brand"
+            />
+            <span>
+              <span className="block text-sm font-medium text-ink">
+                Girl Balance
+              </span>
+              <span className="block text-xs text-ink/50">
+                Matchmaking akan usahakan jumlah cewe di kedua tim tiap
+                match seimbang (selisih maks 1), bukan numpuk di satu tim.
+              </span>
+            </span>
+          </label>
 
           <label className="flex items-start gap-2 rounded-lg border border-black/10 p-3">
             <input

@@ -63,11 +63,11 @@ export default function TemplatePickerModal({
 
   return (
     <div
-      className="fixed inset-0 z-20 flex items-end justify-center bg-black/40 md:items-center"
+      className="fixed inset-0 z-20 flex items-end justify-center bg-black/40"
       onClick={onClose}
     >
       <div
-        className="max-h-[85vh] w-full max-w-md overflow-y-auto rounded-t-2xl bg-white p-6 md:rounded-2xl"
+        className="max-h-[85vh] w-full max-w-md overflow-y-auto rounded-t-2xl bg-white p-6"
         onClick={(e) => e.stopPropagation()}
       >
         <h2 className="text-lg font-semibold text-ink">Pakai Template</h2>
