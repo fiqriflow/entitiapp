@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   createMabarEvent,
   updateMabarEvent,
@@ -57,13 +57,32 @@ export default function MabarFormModal({
   editing: MabarRow | null;
   prefill?: Partial<MabarInput> | null;
 }) {
-  const [form, setForm] = useState<MabarInput>(EMPTY);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  if (!open) return null;
 
-  useEffect(() => {
+  // key berubah tiap ganti record/prefill -> form remount dgn state awal yang
+  // benar, tanpa effect sync setState.
+  return (
+    <MabarFormModalInner
+      key={editing?.id ?? (prefill ? JSON.stringify(prefill) : "new")}
+      onClose={onClose}
+      editing={editing}
+      prefill={prefill}
+    />
+  );
+}
+
+function MabarFormModalInner({
+  onClose,
+  editing,
+  prefill,
+}: {
+  onClose: () => void;
+  editing: MabarRow | null;
+  prefill?: Partial<MabarInput> | null;
+}) {
+  const [form, setForm] = useState<MabarInput>(() => {
     if (editing) {
-      setForm({
+      return {
         title: editing.title,
         description: editing.description ?? "",
         location: editing.location ?? "",
@@ -77,16 +96,15 @@ export default function MabarFormModal({
         level_min: editing.level_min ?? "newbie",
         level_max: editing.level_max ?? "advance",
         gender_restriction: editing.gender_restriction ?? "",
-      });
-    } else if (prefill) {
-      setForm({ ...EMPTY, ...prefill, event_date: "" });
-    } else {
-      setForm(EMPTY);
+      };
     }
-    setError(null);
-  }, [editing, prefill, open]);
-
-  if (!open) return null;
+    if (prefill) {
+      return { ...EMPTY, ...prefill, event_date: "" };
+    }
+    return EMPTY;
+  });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

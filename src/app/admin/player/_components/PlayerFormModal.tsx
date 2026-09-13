@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { createPlayer, updatePlayer, type PlayerInput } from "../actions";
 import { LEVEL_OPTIONS } from "@/lib/constants";
 
@@ -36,29 +36,42 @@ export default function PlayerFormModal({
   onClose: () => void;
   editing: PlayerRow | null;
 }) {
-  const [form, setForm] = useState<PlayerInput>(EMPTY);
+  if (!open) return null;
+
+  // key berubah tiap ganti record -> form remount dgn state awal yang benar,
+  // tanpa effect sync setState.
+  return (
+    <PlayerFormModalInner
+      key={editing?.id ?? "new"}
+      onClose={onClose}
+      editing={editing}
+    />
+  );
+}
+
+function PlayerFormModalInner({
+  onClose,
+  editing,
+}: {
+  onClose: () => void;
+  editing: PlayerRow | null;
+}) {
+  const [form, setForm] = useState<PlayerInput>(() =>
+    editing
+      ? {
+          full_name: editing.full_name ?? "",
+          nickname: editing.nickname ?? "",
+          email: editing.email ?? "",
+          whatsapp: editing.whatsapp ?? "",
+          level: (editing.level as PlayerInput["level"]) ?? "newbie",
+          gender: (editing.gender as PlayerInput["gender"]) ?? "",
+          instagram: editing.instagram ?? "",
+          role: (editing.role as PlayerInput["role"]) ?? "member",
+        }
+      : EMPTY
+  );
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (editing) {
-      setForm({
-        full_name: editing.full_name ?? "",
-        nickname: editing.nickname ?? "",
-        email: editing.email ?? "",
-        whatsapp: editing.whatsapp ?? "",
-        level: (editing.level as PlayerInput["level"]) ?? "newbie",
-        gender: (editing.gender as PlayerInput["gender"]) ?? "",
-        instagram: editing.instagram ?? "",
-        role: (editing.role as PlayerInput["role"]) ?? "member",
-      });
-    } else {
-      setForm(EMPTY);
-    }
-    setError(null);
-  }, [editing, open]);
-
-  if (!open) return null;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

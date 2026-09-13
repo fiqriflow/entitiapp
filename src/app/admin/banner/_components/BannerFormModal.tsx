@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { createBanner, updateBannerMeta, type BannerInput } from "../actions";
 
@@ -30,31 +30,46 @@ export default function BannerFormModal({
   editing: BannerRow | null;
   purpose: "beranda" | "mabar_detail";
 }) {
-  const [form, setForm] = useState<BannerInput>({ ...EMPTY_BASE, purpose });
-  const [preview, setPreview] = useState<string | null>(null);
+  if (!open) return null;
+
+  // key berubah tiap ganti record -> form remount dgn state awal yang benar,
+  // tanpa effect sync setState.
+  return (
+    <BannerFormModalInner
+      key={editing?.id ?? "new"}
+      onClose={onClose}
+      editing={editing}
+      purpose={purpose}
+    />
+  );
+}
+
+function BannerFormModalInner({
+  onClose,
+  editing,
+  purpose,
+}: {
+  onClose: () => void;
+  editing: BannerRow | null;
+  purpose: "beranda" | "mabar_detail";
+}) {
+  const [form, setForm] = useState<BannerInput>(() =>
+    editing
+      ? {
+          link_url: editing.link_url ?? "",
+          is_active: editing.is_active,
+          sort_order: editing.sort_order,
+          purpose,
+        }
+      : { ...EMPTY_BASE, purpose }
+  );
+  const [preview, setPreview] = useState<string | null>(
+    editing?.image_url ?? null
+  );
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    if (editing) {
-      setForm({
-        link_url: editing.link_url ?? "",
-        is_active: editing.is_active,
-        sort_order: editing.sort_order,
-        purpose,
-      });
-      setPreview(editing.image_url);
-    } else {
-      setForm({ ...EMPTY_BASE, purpose });
-      setPreview(null);
-    }
-    setFile(null);
-    setError(null);
-  }, [editing, open]);
-
-  if (!open) return null;
 
   const handleFile = (f: File) => {
     if (!f.type.startsWith("image/")) {

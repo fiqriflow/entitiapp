@@ -153,7 +153,7 @@ export default function RankingSection({
                 <EntitiLogoMark />
                 <div>
                   <p className="text-[15px] font-medium text-white/85">
-                    {formatDateShort(eventDate)}
+                    {mabarTitle} · {formatDateShort(eventDate)}
                   </p>
                   <p className="mt-4 text-[19px] font-medium text-white/85">
                     Rank

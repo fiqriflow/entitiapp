@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   createAnnouncement,
   updateAnnouncement,
@@ -29,24 +29,37 @@ export default function AnnouncementFormModal({
   onClose: () => void;
   editing: AnnouncementRow | null;
 }) {
-  const [form, setForm] = useState<AnnouncementInput>(EMPTY);
+  if (!open) return null;
+
+  // key berubah tiap kali modal dibuka utk record berbeda -> form otomatis
+  // remount dengan state awal yang benar, tanpa perlu effect sync setState.
+  return (
+    <AnnouncementFormModalInner
+      key={editing?.id ?? "new"}
+      onClose={onClose}
+      editing={editing}
+    />
+  );
+}
+
+function AnnouncementFormModalInner({
+  onClose,
+  editing,
+}: {
+  onClose: () => void;
+  editing: AnnouncementRow | null;
+}) {
+  const [form, setForm] = useState<AnnouncementInput>(() =>
+    editing
+      ? {
+          title: editing.title,
+          content: editing.content ?? "",
+          is_active: editing.is_active,
+        }
+      : EMPTY
+  );
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (editing) {
-      setForm({
-        title: editing.title,
-        content: editing.content ?? "",
-        is_active: editing.is_active,
-      });
-    } else {
-      setForm(EMPTY);
-    }
-    setError(null);
-  }, [editing, open]);
-
-  if (!open) return null;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
