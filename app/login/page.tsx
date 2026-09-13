@@ -1,18 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
-import { nicknameToEmail } from "@/lib/constants";
 
 export default function LoginPage() {
-  const [mode, setMode] = useState<"google" | "nickname">("google");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [nickname, setNickname] = useState("");
-  const [password, setPassword] = useState("");
-  const router = useRouter();
 
   const handleGoogleLogin = async () => {
     setLoading(true);
@@ -32,31 +25,10 @@ export default function LoginPage() {
     }
   };
 
-  const handleNicknameLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError(null);
-
-    const supabase = createClient();
-    const { error } = await supabase.auth.signInWithPassword({
-      email: nicknameToEmail(nickname),
-      password,
-    });
-
-    setLoading(false);
-
-    if (error) {
-      setError("Nickname atau password salah.");
-      return;
-    }
-    router.push("/beranda");
-    router.refresh();
-  };
-
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-brand-light px-6">
       <div className="w-full max-w-sm rounded-2xl bg-white p-8 shadow-sm">
-        <div className="mb-6 flex flex-col items-center gap-3 text-center">
+        <div className="mb-8 flex flex-col items-center gap-3 text-center">
           <div className="flex h-14 w-14 items-center justify-center rounded-full bg-brand text-2xl font-bold text-white">
             EB
           </div>
@@ -64,93 +36,23 @@ export default function LoginPage() {
             Entiti Badminton Ciamis
           </h1>
           <p className="text-sm text-ink/60">
-            Masuk untuk lihat jadwal mabar & gabung komunitas.
+            Masuk untuk lihat jadwal mabar & gabung komunitas. Akun baru
+            otomatis dibuatkan saat pertama kali masuk.
           </p>
         </div>
 
-        <div className="mb-5 flex gap-1 rounded-xl bg-neutral-100 p-1">
-          <button
-            onClick={() => {
-              setMode("google");
-              setError(null);
-            }}
-            className={`flex-1 rounded-lg py-2 text-sm font-medium transition ${
-              mode === "google" ? "bg-white text-ink shadow-sm" : "text-ink/50"
-            }`}
-          >
-            Google
-          </button>
-          <button
-            onClick={() => {
-              setMode("nickname");
-              setError(null);
-            }}
-            className={`flex-1 rounded-lg py-2 text-sm font-medium transition ${
-              mode === "nickname"
-                ? "bg-white text-ink shadow-sm"
-                : "text-ink/50"
-            }`}
-          >
-            Nickname
-          </button>
-        </div>
-
-        {mode === "google" ? (
-          <button
-            onClick={handleGoogleLogin}
-            disabled={loading}
-            className="flex w-full items-center justify-center gap-3 rounded-xl border border-black/10 bg-white px-4 py-3 text-sm font-medium text-ink transition hover:bg-black/5 disabled:opacity-60"
-          >
-            <GoogleIcon />
-            {loading ? "Menghubungkan..." : "Lanjutkan dengan Google"}
-          </button>
-        ) : (
-          <form onSubmit={handleNicknameLogin} className="space-y-3">
-            <label className="block">
-              <span className="mb-1 block text-xs font-medium text-ink/60">
-                Nickname
-              </span>
-              <input
-                required
-                value={nickname}
-                onChange={(e) => setNickname(e.target.value)}
-                className="input"
-                placeholder="nickname kamu"
-                autoCapitalize="none"
-              />
-            </label>
-            <label className="block">
-              <span className="mb-1 block text-xs font-medium text-ink/60">
-                Password
-              </span>
-              <input
-                required
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="input"
-              />
-            </label>
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full rounded-xl bg-brand py-3 text-sm font-medium text-white disabled:opacity-60"
-            >
-              {loading ? "Masuk..." : "Masuk"}
-            </button>
-          </form>
-        )}
+        <button
+          onClick={handleGoogleLogin}
+          disabled={loading}
+          className="flex w-full items-center justify-center gap-3 rounded-xl border border-black/10 bg-white px-4 py-3 text-sm font-medium text-ink transition hover:bg-black/5 disabled:opacity-60"
+        >
+          <GoogleIcon />
+          {loading ? "Menghubungkan..." : "Lanjutkan dengan Google"}
+        </button>
 
         {error && (
           <p className="mt-4 text-center text-sm text-red-600">{error}</p>
         )}
-
-        <p className="mt-6 text-center text-sm text-ink/50">
-          Belum punya akun?{" "}
-          <Link href="/signup" className="font-medium text-brand-dark">
-            Daftar di sini
-          </Link>
-        </p>
       </div>
     </main>
   );

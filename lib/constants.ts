@@ -61,3 +61,24 @@ export function normalizeNickname(nickname: string): string {
 export function nicknameToEmail(nickname: string): string {
   return `${normalizeNickname(nickname)}@${NICKNAME_LOGIN_DOMAIN}`;
 }
+
+// Dipakai untuk cek apakah user baru (biasanya dari login Google) sudah
+// mengisi data wajib. Kalau belum, dia dipaksa ke /onboarding dulu.
+export type ProfileCompleteness = {
+  full_name?: string | null;
+  nickname?: string | null;
+  whatsapp?: string | null;
+  gender?: string | null;
+  instagram?: string | null;
+} | null | undefined;
+
+export function isProfileComplete(player: ProfileCompleteness): boolean {
+  if (!player) return false;
+  return Boolean(
+    player.full_name &&
+      player.nickname &&
+      player.whatsapp &&
+      player.gender &&
+      player.instagram
+  );
+}
