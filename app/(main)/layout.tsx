@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { isProfileComplete } from "@/lib/constants";
 import TopBar from "@/components/layout/TopBar";
 import BottomNav from "@/components/layout/BottomNav";
 
@@ -17,7 +18,7 @@ export default async function MainLayout({
 
   let { data: me } = await supabase
     .from("players")
-    .select("id, nickname, full_name, avatar_url")
+    .select("id, nickname, full_name, avatar_url, whatsapp, gender, instagram")
     .eq("auth_user_id", user.id)
     .single();
 
@@ -41,6 +42,9 @@ export default async function MainLayout({
       .single();
     me = recreated;
   }
+
+  // Profil belum lengkap (biasanya user baru dari login Google) -> isi dulu
+  if (!isProfileComplete(me)) redirect("/onboarding");
 
   const { count: unreadCount } = await supabase
     .from("notifications")

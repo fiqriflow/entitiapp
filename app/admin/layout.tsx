@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { isProfileComplete } from "@/lib/constants";
 import AdminMobileNav from "@/components/admin/AdminMobileNav";
 import AdminSidebarNav from "@/components/admin/AdminSidebarNav";
 import type { AdminNavItem } from "@/components/admin/nav-types";
@@ -35,11 +36,12 @@ export default async function AdminLayout({
 
   const { data: player } = await supabase
     .from("players")
-    .select("role, full_name, nickname")
+    .select("role, full_name, nickname, whatsapp, gender, instagram")
     .eq("auth_user_id", user.id)
     .single();
 
   if (player?.role !== "admin") redirect("/beranda");
+  if (!isProfileComplete(player)) redirect("/onboarding");
 
   const displayName = player?.nickname || player?.full_name || user.email;
 

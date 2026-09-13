@@ -1,10 +1,8 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
-import { isProfileComplete } from "@/lib/constants";
 
 // Halaman yang tidak butuh login
 const PUBLIC_PATHS = ["/login", "/signup", "/auth/callback", "/auth/auth-code-error"];
-const ONBOARDING_PATH = "/onboarding";
 
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request });
@@ -38,7 +36,6 @@ export async function updateSession(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const isPublicPath = PUBLIC_PATHS.some((p) => pathname.startsWith(p));
   const isAdminPath = pathname.startsWith("/admin");
-  const isOnboardingPath = pathname.startsWith(ONBOARDING_PATH);
 
   // Belum login & buka halaman privat -> redirect ke /login
   if (!user && !isPublicPath) {
@@ -48,38 +45,25 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  if (user) {
+  // Sudah login tapi buka /login atau /signup -> lempar ke beranda
+  // (kalau profil belum lengkap, layout /beranda yang akan lempar ke /onboarding —
+  // supaya kita tidak perlu query "players" dua kali di sini)
+  if (user && (pathname === "/login" || pathname === "/signup")) {
+    const url = request.nextUrl.clone();
+    url.pathname = "/beranda";
+    return NextResponse.redirect(url);
+  }
+
+  // Cek role admin untuk /admin/* — query ini hanya jalan untuk path admin,
+  // bukan di setiap request, supaya tidak menambah beban ke semua halaman
+  if (user && isAdminPath) {
     const { data: player } = await supabase
       .from("players")
-      .select("full_name, nickname, whatsapp, gender, instagram, role")
+      .select("role")
       .eq("auth_user_id", user.id)
       .single();
 
-    const complete = isProfileComplete(player);
-
-    // Sudah login tapi buka /login atau /signup -> lempar sesuai status profil
-    if (pathname === "/login" || pathname === "/signup") {
-      const url = request.nextUrl.clone();
-      url.pathname = complete ? "/beranda" : ONBOARDING_PATH;
-      return NextResponse.redirect(url);
-    }
-
-    // Profil belum lengkap -> paksa isi onboarding dulu sebelum akses apa pun
-    if (!complete && !isOnboardingPath && !pathname.startsWith("/auth")) {
-      const url = request.nextUrl.clone();
-      url.pathname = ONBOARDING_PATH;
-      return NextResponse.redirect(url);
-    }
-
-    // Profil sudah lengkap tapi masih coba buka /onboarding -> lempar ke beranda
-    if (complete && isOnboardingPath) {
-      const url = request.nextUrl.clone();
-      url.pathname = "/beranda";
-      return NextResponse.redirect(url);
-    }
-
-    // Cek role admin untuk /admin/*
-    if (isAdminPath && player?.role !== "admin") {
+    if (player?.role !== "admin") {
       const url = request.nextUrl.clone();
       url.pathname = "/beranda";
       return NextResponse.redirect(url);
