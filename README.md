@@ -15,14 +15,14 @@ Step 1: Setup project + Auth Google (Supabase).
 - `/beranda` — placeholder halaman terproteksi (harus login)
 - `middleware.ts` — refresh session otomatis + proteksi route (redirect ke
   `/login` kalau belum login, cek role admin untuk `/admin/*`)
-- `supabase/schema.sql` — tabel `players` + RLS + trigger auto-buat profil
+- `supabase/migrations/0000_init_schema.sql` — tabel `players` + RLS + trigger auto-buat profil
   saat user baru sign up
 
 ## Cara jalanin
 
 ### 1. Setup Supabase
 1. Buka project Supabase kamu → **SQL Editor** → jalankan isi file
-   `supabase/schema.sql`.
+   `supabase/migrations/0000_init_schema.sql`.
 2. Buka **Authentication → Providers → Google** → aktifkan.
 3. Buka **Authentication → URL Configuration** → tambahkan Site URL &
    Redirect URL:
