@@ -6,10 +6,14 @@ export const dynamic = "force-dynamic";
 export default async function AdminPlayerPage() {
   const supabase = await createClient();
 
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   const { data: players } = await supabase
     .from("players")
     .select(
-      "id, full_name, nickname, email, whatsapp, level, gender, instagram, role"
+      "id, auth_user_id, full_name, nickname, email, whatsapp, level, gender, instagram, role"
     )
     .order("created_at", { ascending: false });
 
@@ -23,7 +27,7 @@ export default async function AdminPlayerPage() {
       </p>
 
       <div className="mt-6">
-        <PlayerListClient players={players ?? []} />
+        <PlayerListClient players={players ?? []} currentUserId={user?.id ?? null} />
       </div>
     </div>
   );

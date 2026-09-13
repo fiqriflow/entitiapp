@@ -6,6 +6,7 @@ import { LEVEL_OPTIONS } from "@/lib/constants";
 
 export type PlayerRow = {
   id: string;
+  auth_user_id: string | null;
   full_name: string | null;
   nickname: string | null;
   email: string | null;

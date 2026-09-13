@@ -1,18 +1,21 @@
 "use client";
 
 import { useState } from "react";
-import { deletePlayer } from "@/app/admin/player/actions";
+import { deletePlayer, hardDeletePlayer } from "@/app/admin/player/actions";
 import { LEVEL_LABEL } from "@/lib/constants";
 import PlayerFormModal, { type PlayerRow } from "./PlayerFormModal";
 
 export default function PlayerListClient({
   players,
+  currentUserId,
 }: {
   players: PlayerRow[];
+  currentUserId: string | null;
 }) {
   const [modalOpen, setModalOpen] = useState(false);
   const [editing, setEditing] = useState<PlayerRow | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [hardDeletingId, setHardDeletingId] = useState<string | null>(null);
   const [query, setQuery] = useState("");
 
   const filtered = players.filter((p) => {
@@ -39,6 +42,33 @@ export default function PlayerListClient({
     setDeletingId(id);
     await deletePlayer(id);
     setDeletingId(null);
+  };
+
+  const handleHardDelete = async (player: PlayerRow) => {
+    if (player.auth_user_id && player.auth_user_id === currentUserId) {
+      alert("Kamu tidak bisa menghapus akunmu sendiri.");
+      return;
+    }
+    if (
+      !confirm(
+        `HAPUS PERMANEN "${player.full_name || player.nickname || player.id}"?\n\n` +
+          "Ini menghapus data pemain DAN akun Google-nya sekaligus (kalau ada). " +
+          "Emailnya akan benar-benar bersih, seolah belum pernah daftar. " +
+          "AKSI INI TIDAK BISA DIBATALKAN."
+      )
+    )
+      return;
+    const confirmText = prompt('Ketik "HAPUS" untuk konfirmasi hapus permanen:');
+    if (confirmText !== "HAPUS") {
+      if (confirmText !== null) alert("Konfirmasi tidak sesuai, dibatalkan.");
+      return;
+    }
+    setHardDeletingId(player.id);
+    const result = await hardDeletePlayer(player.id);
+    setHardDeletingId(null);
+    if (result.error) {
+      alert("Gagal hapus permanen: " + result.error);
+    }
   };
 
   return (
@@ -101,6 +131,13 @@ export default function PlayerListClient({
                 {deletingId === p.id ? "Menghapus..." : "Hapus"}
               </button>
             </div>
+            <button
+              onClick={() => handleHardDelete(p)}
+              disabled={hardDeletingId === p.id}
+              className="mt-2 w-full rounded-lg border border-red-300 bg-red-50 py-2 text-xs font-bold text-red-700"
+            >
+              {hardDeletingId === p.id ? "Menghapus permanen..." : "Hapus Permanen"}
+            </button>
           </div>
         ))}
         {filtered.length === 0 && (
@@ -159,6 +196,13 @@ export default function PlayerListClient({
                     className="text-xs font-medium text-red-600"
                   >
                     {deletingId === p.id ? "..." : "Hapus"}
+                  </button>
+                  <button
+                    onClick={() => handleHardDelete(p)}
+                    disabled={hardDeletingId === p.id}
+                    className="ml-2 text-xs font-bold text-red-700"
+                  >
+                    {hardDeletingId === p.id ? "..." : "Hapus Permanen"}
                   </button>
                 </td>
               </tr>
