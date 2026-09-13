@@ -15,7 +15,7 @@ export default async function AdminMabarPage() {
       supabase
         .from("mabar_events")
         .select(
-          "id, title, description, location, event_date, start_time, end_time, max_slot, price, status, is_private, completion_override, level_min, level_max, gender_restriction"
+          "id, title, description, location, event_date, start_time, end_time, max_slot, price, status, is_private, completion_override, level_min, level_max, gender_restriction, girl_balance"
         )
         .order("event_date", { ascending: false }),
       supabase

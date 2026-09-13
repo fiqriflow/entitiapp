@@ -17,6 +17,7 @@ export type MabarInput = {
   level_min: string;
   level_max: string;
   gender_restriction: "pria" | "wanita" | "";
+  girl_balance: boolean;
 };
 
 function clean(value: string) {
@@ -50,6 +51,7 @@ export async function createMabarEvent(input: MabarInput) {
     level_min: input.level_min,
     level_max: input.level_max,
     gender_restriction: input.gender_restriction || null,
+    girl_balance: input.girl_balance,
     created_by: me?.id ?? null,
   });
 
@@ -80,6 +82,7 @@ export async function updateMabarEvent(id: string, input: MabarInput) {
       level_min: input.level_min,
       level_max: input.level_max,
       gender_restriction: input.gender_restriction || null,
+      girl_balance: input.girl_balance,
     })
     .eq("id", id);
 
