@@ -38,7 +38,7 @@ export default async function MainLayout({
         },
         { onConflict: "auth_user_id" }
       )
-      .select("id, nickname, full_name, avatar_url")
+      .select("id, nickname, full_name, avatar_url, whatsapp, gender, instagram")
       .single();
     me = recreated;
   }
