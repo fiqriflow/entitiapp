@@ -75,9 +75,12 @@ export default function MabarEventCard({
             )}
           </div>
           <p className="mt-0.5 text-sm text-ink/60">
-            Admin: {event.creator_name || "-"}
-            {typeof event.total_members === "number" && (
-              <> · <span className="font-semibold text-ink">{event.total_members} Anggota</span></>
+            Admin: {event.creator_name || "-"} <span>•</span>{" "}
+            <span className="font-semibold text-ink">
+              {event.joined_count}/{event.max_slot} slot terisi
+            </span>
+            {full && event.status === "active" && (
+              <span className="font-semibold text-red-500"> · Penuh</span>
             )}
           </p>
         </div>
@@ -153,29 +156,23 @@ export default function MabarEventCard({
       </div>
 
       <div className="mt-3 flex items-center justify-between gap-2">
-        <div className="flex items-center gap-2">
-          <div className="flex -space-x-2">
-            {shown.map((name, i) => (
-              <div
-                key={i}
-                title={name ?? undefined}
-                className={`flex h-7 w-7 items-center justify-center rounded-full border-2 border-white text-[10px] font-semibold ${
-                  AVATAR_COLORS[i % AVATAR_COLORS.length]
-                }`}
-              >
-                {initials(name)}
-              </div>
-            ))}
-            {extra > 0 && (
-              <div className="flex h-7 w-7 items-center justify-center rounded-full border-2 border-white bg-neutral-100 text-[10px] font-semibold text-ink/50">
-                +{extra}
-              </div>
-            )}
-          </div>
-          <span className="text-xs text-ink/50">
-            {event.joined_count}/{event.max_slot} slot terisi
-            {full && event.status === "active" ? " · Penuh" : ""}
-          </span>
+        <div className="flex -space-x-2">
+          {shown.map((name, i) => (
+            <div
+              key={i}
+              title={name ?? undefined}
+              className={`flex h-7 w-7 items-center justify-center rounded-full border-2 border-white text-[10px] font-semibold ${
+                AVATAR_COLORS[i % AVATAR_COLORS.length]
+              }`}
+            >
+              {initials(name)}
+            </div>
+          ))}
+          {extra > 0 && (
+            <div className="flex h-7 w-7 items-center justify-center rounded-full border-2 border-white bg-neutral-100 text-[10px] font-semibold text-ink/50">
+              +{extra}
+            </div>
+          )}
         </div>
 
         <span className="shrink-0 rounded-full bg-neutral-100 px-3 py-1.5 text-xs font-semibold text-ink">
