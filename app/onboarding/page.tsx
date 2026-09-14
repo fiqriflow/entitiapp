@@ -41,6 +41,15 @@ export default async function OnboardingPage() {
             instagram: me?.instagram ?? "",
           }}
         />
+
+        <form action="/auth/signout" method="post" className="mt-4 text-center">
+          <button
+            type="submit"
+            className="text-sm font-medium text-ink/50 hover:text-ink"
+          >
+            ‹ Kembali ke Login
+          </button>
+        </form>
       </div>
     </main>
   );

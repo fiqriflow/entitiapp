@@ -23,7 +23,7 @@ export default function MabarTabs({
             tab === "mine" ? "bg-white text-ink shadow-sm" : "text-ink/50"
           }`}
         >
-          My Mabar
+          My Mabar ({myEvents.length})
         </button>
         <button
           onClick={() => setTab("selesai")}
@@ -31,7 +31,7 @@ export default function MabarTabs({
             tab === "selesai" ? "bg-white text-ink shadow-sm" : "text-ink/50"
           }`}
         >
-          Selesai
+          Selesai ({pastEvents.length})
         </button>
       </div>
 
