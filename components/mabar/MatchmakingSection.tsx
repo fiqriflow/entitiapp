@@ -25,6 +25,7 @@ export type MatchRow = {
   team_a_player2: string;
   team_b_player1: string;
   team_b_player2: string;
+  referee_player_id: string | null;
   sets: SetScore[];
 };
 
@@ -165,6 +166,17 @@ function MatchCard({
           <Player p={playersById[match.team_b_player2]} />
         </div>
       </div>
+
+      <p className="mt-1.5 text-[11px] text-ink/40">
+        🧑‍⚖️ Wasit:{" "}
+        {match.referee_player_id ? (
+          <span className="font-medium text-ink/60">
+            {playersById[match.referee_player_id]?.name ?? "?"}
+          </span>
+        ) : (
+          "belum ada"
+        )}
+      </p>
 
       {!editing ? (
         <>

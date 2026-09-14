@@ -24,7 +24,7 @@ export default async function AdminMabarPage() {
       supabase
         .from("mabar_templates")
         .select(
-          "id, name, title, description, location, start_time, end_time, max_slot, price, is_private, level_min, level_max, gender_restriction"
+          "id, name, title, description, location, start_time, end_time, max_slot, price, is_private, level_min, level_max, gender_restriction, girl_balance"
         )
         .order("created_at", { ascending: false }),
     ]);

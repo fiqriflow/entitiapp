@@ -19,6 +19,7 @@ export type TemplateRow = {
   level_min: string;
   level_max: string;
   gender_restriction: "pria" | "wanita" | null;
+  girl_balance: boolean;
 };
 
 export default function TemplatePickerModal({
@@ -49,6 +50,7 @@ export default function TemplatePickerModal({
       level_min: t.level_min,
       level_max: t.level_max,
       gender_restriction: t.gender_restriction ?? "",
+      girl_balance: t.girl_balance,
       status: "active",
     });
     onClose();

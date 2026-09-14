@@ -18,7 +18,7 @@ export async function saveEventAsTemplate(eventId: string, name: string) {
   const { data: event, error: eventError } = await supabase
     .from("mabar_events")
     .select(
-      "title, description, location, start_time, end_time, max_slot, price, is_private, level_min, level_max, gender_restriction"
+      "title, description, location, start_time, end_time, max_slot, price, is_private, level_min, level_max, gender_restriction, girl_balance"
     )
     .eq("id", eventId)
     .single();
@@ -38,6 +38,7 @@ export async function saveEventAsTemplate(eventId: string, name: string) {
     level_min: event.level_min,
     level_max: event.level_max,
     gender_restriction: event.gender_restriction,
+    girl_balance: event.girl_balance,
     created_by: me?.id ?? null,
   });
 
