@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+import { createClient, getCurrentUser } from "@/lib/supabase/server";
 import MabarEventCard, {
   type MabarCardData,
 } from "@/components/mabar/MabarEventCard";
@@ -8,9 +8,7 @@ export const dynamic = "force-dynamic";
 
 export default async function GamePage() {
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getCurrentUser();
 
   const { data: me } = await supabase
     .from("players")

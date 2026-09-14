@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+import { createClient, getCurrentUser } from "@/lib/supabase/server";
 import PlayerListClient from "@/components/admin/player/PlayerListClient";
 
 export const dynamic = "force-dynamic";
@@ -6,9 +6,7 @@ export const dynamic = "force-dynamic";
 export default async function AdminPlayerPage() {
   const supabase = await createClient();
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getCurrentUser();
 
   const { data: players } = await supabase
     .from("players")

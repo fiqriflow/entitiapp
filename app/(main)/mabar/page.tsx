@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+import { createClient, getCurrentUser } from "@/lib/supabase/server";
 import MabarTabs from "@/components/mabar/MabarTabs";
 import type { MabarCardData } from "@/components/mabar/MabarEventCard";
 import { isMabarCompleted } from "@/lib/constants";
@@ -7,9 +7,7 @@ export const dynamic = "force-dynamic";
 
 export default async function MabarPage() {
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getCurrentUser();
 
   const { data: me } = await supabase
     .from("players")

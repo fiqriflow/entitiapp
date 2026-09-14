@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+import { createClient, getCurrentUser } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import JoinButton from "@/components/mabar/JoinButton";
@@ -34,9 +34,7 @@ export default async function MabarDetailPage({
   const { id } = await params;
   const supabase = await createClient();
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getCurrentUser();
 
   const [{ data: event }, { data: me }, { data: commitmentItems }] = await Promise.all([
     supabase.from("mabar_events").select("*").eq("id", id).single(),
@@ -114,7 +112,7 @@ export default async function MabarDetailPage({
     supabase
       .from("mabar_matches")
       .select(
-        "id, session_id, court_label, team_a_player1, team_a_player2, team_b_player1, team_b_player2, sets"
+        "id, session_id, court_label, team_a_player1, team_a_player2, team_b_player1, team_b_player2, referee_player_id, sets"
       )
       .eq("mabar_id", id)
       .order("court_label", { ascending: true }),
@@ -125,12 +123,15 @@ export default async function MabarDetailPage({
 
   const involvedPlayerIds = [
     ...new Set(
-      matchRows.flatMap((m) => [
-        m.team_a_player1,
-        m.team_a_player2,
-        m.team_b_player1,
-        m.team_b_player2,
-      ])
+      matchRows.flatMap((m) =>
+        [
+          m.team_a_player1,
+          m.team_a_player2,
+          m.team_b_player1,
+          m.team_b_player2,
+          m.referee_player_id,
+        ].filter((id): id is string => Boolean(id))
+      )
     ),
   ];
 

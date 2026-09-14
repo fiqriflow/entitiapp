@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+import { createClient, getCurrentUser } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import NotificationItem from "@/components/notifikasi/NotificationItem";
 import NotificationToolbar from "@/components/notifikasi/NotificationToolbar";
@@ -7,9 +7,7 @@ export const dynamic = "force-dynamic";
 
 export default async function NotifikasiPage() {
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getCurrentUser();
 
   if (!user) redirect("/login");
 
