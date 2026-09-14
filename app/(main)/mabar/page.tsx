@@ -46,7 +46,7 @@ export default async function MabarPage() {
   }
 
   const allEvents: MabarCardData[] = (events ?? []).map((ev) => {
-    const { creator, ...rest } = ev as typeof ev & {
+    const { creator, ...rest } = ev as unknown as typeof ev & {
       creator: { nickname: string | null; full_name: string | null } | null;
     };
     return {

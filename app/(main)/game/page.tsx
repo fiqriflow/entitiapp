@@ -49,7 +49,7 @@ export default async function GamePage() {
 
   const activeEvents: MabarCardData[] = (events ?? [])
     .map((ev) => {
-      const { creator, ...rest } = ev as typeof ev & {
+      const { creator, ...rest } = ev as unknown as typeof ev & {
         creator: { nickname: string | null; full_name: string | null } | null;
       };
       return {
