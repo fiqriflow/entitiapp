@@ -42,6 +42,7 @@ export default function MabarEventCard({
   return (
     <Link
       href={`/mabar/${event.id}`}
+      prefetch={false}
       className="block rounded-xl border border-black/10 bg-white p-4 transition hover:border-brand/30"
     >
       <div className="flex items-start justify-between gap-2">

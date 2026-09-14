@@ -14,6 +14,7 @@ export default function MenuRow({
   return (
     <Link
       href={href}
+      prefetch={false}
       className="flex items-center gap-3 border-b border-black/5 px-4 py-3.5 last:border-b-0 hover:bg-black/[0.02]"
     >
       <span className="text-lg">{icon}</span>

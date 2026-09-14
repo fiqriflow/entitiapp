@@ -15,7 +15,7 @@ export default function TopBar({
   return (
     <header className="sticky top-0 z-10 border-b border-black/10 bg-white/95 backdrop-blur">
       <div className="mx-auto flex max-w-md items-center justify-between px-4 py-3">
-        <Link href="/beranda" className="flex items-center gap-2">
+        <Link href="/beranda" prefetch={false} className="flex items-center gap-2">
           <div className="flex h-8 w-8 items-center justify-center rounded-full bg-brand text-xs font-bold text-white">
             EB
           </div>
@@ -27,6 +27,7 @@ export default function TopBar({
         <div className="flex items-center gap-3">
           <Link
             href="/notifikasi"
+            prefetch={false}
             aria-label="Notifikasi"
             className="relative flex h-9 w-9 items-center justify-center rounded-full text-lg hover:bg-black/5"
           >
@@ -37,7 +38,7 @@ export default function TopBar({
               </span>
             )}
           </Link>
-          <Link href="/profil" className="shrink-0">
+          <Link href="/profil" prefetch={false} className="shrink-0">
             {avatarUrl ? (
               <Image
                 src={avatarUrl}
