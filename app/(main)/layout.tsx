@@ -14,11 +14,12 @@ export default async function MainLayout({
 
   if (!user) redirect("/login");
 
-  let { data: me } = await supabase
-    .from("players")
-    .select("id, nickname, full_name, avatar_url, whatsapp, gender, instagram")
-    .eq("auth_user_id", user.id)
-    .single();
+  // 1 round-trip: ambil data profil + unread count sekaligus (RPC get_me_with_unread)
+  const { data: rows } = await supabase.rpc("get_me_with_unread", {
+    p_auth_user_id: user.id,
+  });
+  let me = rows?.[0] ?? null;
+  let unreadCount = me?.unread_count ?? 0;
 
   // Self-heal: kalau baris players ternyata hilang (misal kehapus manual
   // padahal akun auth-nya masih ada), buat ulang otomatis biar tidak
@@ -38,17 +39,12 @@ export default async function MainLayout({
       )
       .select("id, nickname, full_name, avatar_url, whatsapp, gender, instagram")
       .single();
-    me = recreated;
+    me = recreated ? { ...recreated, unread_count: 0 } : null;
+    unreadCount = 0;
   }
 
   // Profil belum lengkap (biasanya user baru dari login Google) -> isi dulu
   if (!isProfileComplete(me)) redirect("/onboarding");
-
-  const { count: unreadCount } = await supabase
-    .from("notifications")
-    .select("*", { count: "exact", head: true })
-    .eq("player_id", me?.id ?? "")
-    .eq("is_read", false);
 
   const displayName = me?.nickname || me?.full_name || user.email || "Pemain";
 
