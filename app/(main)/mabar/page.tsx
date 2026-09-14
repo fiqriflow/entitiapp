@@ -37,7 +37,7 @@ export default async function MabarPage() {
     if (row.status === "joined") {
       joinedCountByMabar[row.mabar_id] =
         (joinedCountByMabar[row.mabar_id] ?? 0) + 1;
-      const p = row.players as { nickname: string | null; full_name: string | null } | null;
+      const p = row.players as unknown as { nickname: string | null; full_name: string | null } | null;
       (namesByMabar[row.mabar_id] ??= []).push(p?.nickname || p?.full_name || null);
     }
     if (me && row.player_id === me.id) {
