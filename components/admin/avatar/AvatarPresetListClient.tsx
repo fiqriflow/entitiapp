@@ -110,7 +110,7 @@ export default function AvatarPresetListClient({
       </div>
       {error && <p className="mt-2 text-xs text-red-600">{error}</p>}
 
-      <div className="mt-4 grid grid-cols-3 gap-3 sm:grid-cols-5">
+      <div className="mt-4 grid grid-cols-3 gap-3">
         {[...presets]
           .sort((a, b) => a.sort_order - b.sort_order)
           .map((p) => (

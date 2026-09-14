@@ -26,7 +26,7 @@ export default function MabarDetailTabs({
       <div className="flex gap-1 overflow-x-auto rounded-xl bg-neutral-100 p-1 no-scrollbar">
         <button
           onClick={() => setTab("detail")}
-          className={`shrink-0 flex-1 rounded-lg py-2 px-2 text-xs font-medium transition sm:text-sm ${
+          className={`shrink-0 flex-1 rounded-lg py-2 px-2 text-xs font-medium transition ${
             tab === "detail" ? "bg-white text-ink shadow-sm" : "text-ink/50"
           }`}
         >
@@ -34,7 +34,7 @@ export default function MabarDetailTabs({
         </button>
         <button
           onClick={() => setTab("players")}
-          className={`shrink-0 flex-1 rounded-lg py-2 px-2 text-xs font-medium transition sm:text-sm ${
+          className={`shrink-0 flex-1 rounded-lg py-2 px-2 text-xs font-medium transition ${
             tab === "players" ? "bg-white text-ink shadow-sm" : "text-ink/50"
           }`}
         >
@@ -44,7 +44,7 @@ export default function MabarDetailTabs({
           <>
             <button
               onClick={() => setTab("matchmaking")}
-              className={`shrink-0 flex-1 rounded-lg py-2 px-2 text-xs font-medium transition sm:text-sm ${
+              className={`shrink-0 flex-1 rounded-lg py-2 px-2 text-xs font-medium transition ${
                 tab === "matchmaking"
                   ? "bg-white text-ink shadow-sm"
                   : "text-ink/50"
@@ -54,7 +54,7 @@ export default function MabarDetailTabs({
             </button>
             <button
               onClick={() => setTab("ranking")}
-              className={`shrink-0 flex-1 rounded-lg py-2 px-2 text-xs font-medium transition sm:text-sm ${
+              className={`shrink-0 flex-1 rounded-lg py-2 px-2 text-xs font-medium transition ${
                 tab === "ranking" ? "bg-white text-ink shadow-sm" : "text-ink/50"
               }`}
             >

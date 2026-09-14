@@ -331,7 +331,7 @@ export default function MatchmakingSection({
                   </button>
                 )}
               </div>
-              <div className="mt-1.5 grid gap-2 sm:grid-cols-2">
+              <div className="mt-1.5 grid gap-2">
                 {matches
                   .filter((m) => m.session_id === s.id)
                   .map((m) => (

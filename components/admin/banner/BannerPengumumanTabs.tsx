@@ -24,7 +24,7 @@ export default function BannerPengumumanTabs({
       <div className="flex gap-1 rounded-xl bg-neutral-100 p-1">
         <button
           onClick={() => setTab("banner")}
-          className={`flex-1 rounded-lg py-2 text-xs font-medium transition sm:text-sm ${
+          className={`flex-1 rounded-lg py-2 text-xs font-medium transition ${
             tab === "banner" ? "bg-white text-ink shadow-sm" : "text-ink/50"
           }`}
         >
@@ -32,7 +32,7 @@ export default function BannerPengumumanTabs({
         </button>
         <button
           onClick={() => setTab("mabar_header")}
-          className={`flex-1 rounded-lg py-2 text-xs font-medium transition sm:text-sm ${
+          className={`flex-1 rounded-lg py-2 text-xs font-medium transition ${
             tab === "mabar_header"
               ? "bg-white text-ink shadow-sm"
               : "text-ink/50"
@@ -42,7 +42,7 @@ export default function BannerPengumumanTabs({
         </button>
         <button
           onClick={() => setTab("pengumuman")}
-          className={`flex-1 rounded-lg py-2 text-xs font-medium transition sm:text-sm ${
+          className={`flex-1 rounded-lg py-2 text-xs font-medium transition ${
             tab === "pengumuman"
               ? "bg-white text-ink shadow-sm"
               : "text-ink/50"

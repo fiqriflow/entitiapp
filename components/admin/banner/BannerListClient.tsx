@@ -50,7 +50,7 @@ export default function BannerListClient({
         </button>
       </div>
 
-      <div className="mt-4 grid gap-3 sm:grid-cols-2">
+      <div className="mt-4 grid gap-3">
         {banners.map((b) => (
           <div
             key={b.id}

@@ -145,7 +145,7 @@ export default async function BerandaPage() {
               <Link
                 key={ev.id}
                 href={`/mabar/${ev.id}`}
-                className="block w-[70vw] shrink-0 snap-start rounded-xl border border-black/10 bg-white p-4 transition hover:border-brand/30 sm:w-64"
+                className="block w-64 shrink-0 snap-start rounded-xl border border-black/10 bg-white p-4 transition hover:border-brand/30"
               >
                 <p className="text-sm font-semibold text-ink">
                   {ev.title}

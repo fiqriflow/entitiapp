@@ -32,7 +32,7 @@ export default async function AdminDashboardPage() {
         Ringkasan data pemain & mabar komunitas.
       </p>
 
-      <div className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-4">
+      <div className="mt-6 grid grid-cols-2 gap-3">
         <StatCard label="Total Pemain" value={total} />
         <StatCard label="Mabar Aktif" value={activeMabarCount ?? 0} />
         <StatCard
@@ -47,7 +47,7 @@ export default async function AdminDashboardPage() {
         />
       </div>
 
-      <div className="mt-8 grid gap-4 md:grid-cols-2">
+      <div className="mt-8 grid gap-4">
         <BreakdownCard
           title="Berdasarkan Level"
           data={byLevel}

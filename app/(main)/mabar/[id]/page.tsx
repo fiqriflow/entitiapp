@@ -336,7 +336,7 @@ export default async function MabarDetailPage({
 
   return (
     <div className="space-y-4">
-      <div className="relative h-32 w-full overflow-hidden rounded-2xl border border-black/10 sm:h-40">
+      <div className="relative h-32 w-full overflow-hidden rounded-2xl border border-black/10">
         <Image
           src={headerImageUrl}
           alt=""

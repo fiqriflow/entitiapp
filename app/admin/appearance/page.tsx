@@ -31,7 +31,7 @@ export default function AdminAppearancePage() {
         Kelola tampilan konten yang dilihat pemain di aplikasi.
       </p>
 
-      <div className="mt-6 grid gap-3 sm:grid-cols-3">
+      <div className="mt-6 grid gap-3">
         {APPEARANCE_ITEMS.map((item) => (
           <Link
             key={item.href}
